@@ -2,7 +2,7 @@ import React, { Fragment, useRef, useState, useContext, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react';
 import {GlobalContext} from '../patientContext/GlobalState';
 
-export const FormModal = ({ currentId, setCurrentId, edit, setEdit,add,setAdd }) => {
+export const FormModal = ({ currentId, setCurrentId, edit, setEdit,add,setAdd,history }) => {
     const {addPatient,updatePatient,patients,getPatients}=useContext(GlobalContext);
     const patient=(currentId?patients.find((message)=>message._id===currentId):null);
     const [patientData,setPatientData]=useState({first_name:'',last_name:'',email:'',phone:''});
@@ -12,14 +12,17 @@ export const FormModal = ({ currentId, setCurrentId, edit, setEdit,add,setAdd })
     useEffect(()=>{
         if(patient) {setPatientData(patient);}
     },[patient]);
+
+   
     
-    const  handleSubmit= async() => {
+    const  handleSubmit= async(e) => {
+        e.preventDefault();
         if(currentId){
             setEdit(prev=>!prev);
             updatePatient(currentId,patientData);
             clear();
             getPatients();
-        }
+               }
         else{
         setAdd(prev=>!prev);
         addPatient(patientData);
@@ -101,7 +104,7 @@ export const FormModal = ({ currentId, setCurrentId, edit, setEdit,add,setAdd })
                                         <button
                                             type="button"
                                             className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                            onClick={() => handleSubmit()}
+                                            onClick={(e) => handleSubmit(e)}
                                         >
                                             {currentId?'Edit':'Add'}
                         </button>

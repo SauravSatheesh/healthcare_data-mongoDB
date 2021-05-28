@@ -13,11 +13,11 @@ if (localStorage.token) {
 }
 
 function App() {
- 
+  
   
 
 return (
-       <AuthProvider>
+     <AuthProvider>
        <GlobalProvider>
     <div >
     <Router>
